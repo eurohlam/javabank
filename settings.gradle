@@ -1,5 +1,0 @@
-rootProject.name = 'javabank-all'
-
-include 'javabank-client', 'javabank-core'
-
-enableFeaturePreview('STABLE_PUBLISHING')
