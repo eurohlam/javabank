@@ -33,8 +33,43 @@ public class Imposter extends MbEntity {
         return this;
     }
 
-    public Imposter withProtocol(String protocol) {
-        this.put("protocol", protocol);
+    public Imposter withProtocol(ProtocolType protocol) {
+        this.put("protocol", protocol.getValue());
+        return this;
+    }
+
+    public Imposter withName(String name) {
+        this.put("name", name);
+        return this;
+    }
+
+    public Imposter withRecordRequests(boolean recordRequests) {
+        this.put("recordRequests", recordRequests);
+        return this;
+    }
+
+    public Imposter withDefaultResponse(String response) {
+        this.put("defaultResponse", response);
+        return this;
+    }
+
+    public Imposter withAllowCors(boolean allowCors) {
+        this.put("allowCORS", allowCors);
+        return this;
+    }
+
+    public Imposter withSslPrivateKey(String pem) {
+        this.put("key", pem);
+        return this;
+    }
+
+    public Imposter withSslCertificate(String pem) {
+        this.put("cert", pem);
+        return this;
+    }
+
+    public Imposter withMutualAuth(boolean mutualAuth) {
+        this.put("mutualAuth", mutualAuth);
         return this;
     }
 
