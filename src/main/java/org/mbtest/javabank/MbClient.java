@@ -1,7 +1,5 @@
 package org.mbtest.javabank;
 
-import org.mbtest.javabank.fluent.ImposterBuilder;
-import org.mbtest.javabank.fluent.StubBuilder;
 import org.mbtest.javabank.model.Imposter;
 import org.mbtest.javabank.model.Stub;
 
@@ -17,42 +15,31 @@ public class MbClient {
 
     private static final Logger LOG = Logger.getLogger(MbClient.class.getName());
 
-    private final String mbUrl;
+    private final String mountebankAdminUrl;
     private final HttpClient.Builder builder;
-    private final int endpointPort;
-    private final String endpointPath;
+    private final int imposterPort;
 
-    public static MbClient newInstance(final String mbUrl, final int endpointPort, final String endpointPath) {
-        return new MbClient(mbUrl, endpointPort, endpointPath);
+    public static MbClient newInstance(final String mountebankAdminUrl, final int imposterPort) {
+        return new MbClient(mountebankAdminUrl, imposterPort);
     }
 
-    protected MbClient(final String mbUrl, final int endpointPort, final String endpointPath) {
-        this.mbUrl = mbUrl + "/imposters/";
-        this.endpointPort = endpointPort;
-        this.endpointPath = endpointPath;
+    protected MbClient(final String mountebankAdminUrl, final int imposterPort) {
+        this.mountebankAdminUrl = mountebankAdminUrl + "/imposters/";
+        this.imposterPort = imposterPort;
         builder = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .followRedirects(HttpClient.Redirect.NORMAL)
                 .connectTimeout(Duration.ofSeconds(20));
     }
 
-    public MbClient createImposter() {
-        return createImposter(
-                ImposterBuilder
-                        .anImposter()
-                        .onPort(endpointPort)
-                        .protocol("https")
-                        .build());
-    }
-
-    private MbClient createImposter(Imposter imposter) {
+    public MbClient createImposter(Imposter imposter) {
         LOG.log(Level.INFO, "Creating a new MB-imposter: " + imposter);
+        imposter.onPort(imposterPort);
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .setHeader("Content-Type", "application/json")
-                .uri(URI.create(mbUrl))
+                .uri(URI.create(mountebankAdminUrl))
                 .POST(HttpRequest.BodyPublishers.ofString(imposter.toString()))
-                //.expectContinue(true)
                 .build();
         String response = send(request);
         LOG.log(Level.INFO, "Response from MB: " + response);
@@ -60,12 +47,11 @@ public class MbClient {
     }
 
     public MbClient deleteImposter() {
-        LOG.log(Level.INFO, "Deleting MB-imposter on port: " + endpointPort);
+        LOG.log(Level.INFO, "Deleting MB-imposter on port: " + imposterPort);
         HttpRequest request = HttpRequest
                 .newBuilder()
-                .uri(URI.create(mbUrl + endpointPort))
+                .uri(URI.create(mountebankAdminUrl + imposterPort))
                 .DELETE()
-                //.expectContinue(true)
                 .build();
         String response = send(request);
         LOG.log(Level.INFO, "Response from MB: " + response);
@@ -82,7 +68,7 @@ public class MbClient {
         HttpRequest request = HttpRequest
                 .newBuilder()
                 .setHeader("Content-Type", "application/json")
-                .uri(URI.create(mbUrl + endpointPort + "/stubs"))
+                .uri(URI.create(mountebankAdminUrl + imposterPort + "/stubs"))
                 .POST(HttpRequest.BodyPublishers.ofString(json))
                 //.expectContinue(true)
                 .build();
