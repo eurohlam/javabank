@@ -70,7 +70,6 @@ public class MbClient {
                 .setHeader("Content-Type", "application/json")
                 .uri(URI.create(mountebankAdminUrl + imposterPort + "/stubs"))
                 .POST(HttpRequest.BodyPublishers.ofString(json))
-                //.expectContinue(true)
                 .build();
         String response = send(request);
         LOG.log(Level.INFO, "Response from MB: " + response);

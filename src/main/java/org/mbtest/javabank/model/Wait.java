@@ -6,8 +6,6 @@ public class Wait extends Behavior {
 
     static final long serialVersionUID = 42L;
 
-    private static final BehaviorType WAIT = BehaviorType.WAIT;
-
     private int value = 0;
     private String function;
 
@@ -34,6 +32,6 @@ public class Wait extends Behavior {
 
     @Override
     public BehaviorType getType() {
-        return WAIT;
+        return BehaviorType.WAIT;
     }
 }
