@@ -7,7 +7,7 @@ In particular:
 
 Added support of some mountebank features that are missed in the original project:
 - ability to create an imposter with https protocol
-- behaviors: wait and copy 
+- behaviors: wait, repeat and copy 
 
 
 
