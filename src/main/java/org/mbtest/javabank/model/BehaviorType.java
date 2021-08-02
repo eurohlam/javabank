@@ -4,6 +4,7 @@ public enum BehaviorType {
 
     WAIT("wait"),
     COPY("copy"),
+    REPEAT("repeat"),
     DECORATE("decorate"),
     LOOKUP("lookup");
 
