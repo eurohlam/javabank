@@ -54,7 +54,6 @@ public class IsBuilder extends ResponseTypeBuilder {
                 byte[] bytes = Files.readAllBytes(this.bodyFile.toPath());
                 this.body = new String(bytes, Charset.defaultCharset());
             } catch (IOException e) {
-                //e.printStackTrace();
                 this.body = null;
             }
         }

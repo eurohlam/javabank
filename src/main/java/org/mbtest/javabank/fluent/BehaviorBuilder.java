@@ -14,7 +14,6 @@ public class BehaviorBuilder implements FluentBuilder {
 
     private final ResponseBuilder parent;
 
-    //private BehaviorTypeBuilder behavior;
     private List<BehaviorTypeBuilder> childBehaviors;
 
     protected BehaviorBuilder(ResponseBuilder responseBuilder) {
