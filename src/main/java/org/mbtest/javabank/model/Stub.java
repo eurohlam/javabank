@@ -46,7 +46,7 @@ public class Stub extends MbEntity {
         return predicates;
     }
 
-    public MbEntity getResponse(int index) {
+    public Response getResponse(int index) {
         return getResponses().get(index);
     }
 
