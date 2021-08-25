@@ -1,5 +1,6 @@
 package org.mbtest.javabank.model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,12 @@ public class Predicate extends MbEntity {
     private static final String HEADERS = "headers";
     private static final String REQUEST_FROM = "requestFrom";
     private static final String BODY = "body";
+
+    //predicate parameters
+    private static final String CASE_SENSITIVE  = "caseSensitive";
+    private static final String XPATH = "xpath";
+    private static final String JSONPATH = "jsonpath";
+    private static final String EXCEPT = "except";
 
     private final Map<String, Object> data;
     private final PredicateType type;
@@ -93,6 +100,24 @@ public class Predicate extends MbEntity {
         return this;
     }
 
+    public Predicate withCaseSensitive(boolean caseSensitive) {
+        this.put(CASE_SENSITIVE, caseSensitive);
+        return this;
+    }
+    public Predicate withXpath(String xpath) {
+        this.put(XPATH, Collections.singletonMap("selector", xpath));
+        return this;
+    }
+    public Predicate withJsonpath(String jsonpath) {
+        this.put(JSONPATH, Collections.singletonMap("selector", jsonpath));
+        return this;
+    }
+    public Predicate withExcept(String except) {
+        this.put(EXCEPT, except);
+        return this;
+    }
+
+
     public String getPath() {
         return (String) getEntry(PATH);
     }
@@ -125,5 +150,23 @@ public class Predicate extends MbEntity {
 
     public String getHeader(String name) {
         return getHeaders().get(name);
+    }
+
+    public boolean isCaseSensitive() {
+        return (boolean)this.getOrDefault(CASE_SENSITIVE, false);
+    }
+
+    public String getExcept() {
+        return (String)this.getOrDefault(EXCEPT, "");
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getJsonpath() {
+        return ((Map<String, String>)this.getOrDefault(JSONPATH, Collections.singletonMap("selector", ""))).get("selector");
+    }
+
+    @SuppressWarnings("unchecked")
+    public String getXpath() {
+        return ((Map<String, String>)this.getOrDefault(XPATH, Collections.singletonMap("selector", ""))).get("selector");
     }
 }
