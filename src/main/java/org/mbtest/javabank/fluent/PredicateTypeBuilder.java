@@ -12,6 +12,11 @@ public class PredicateTypeBuilder implements FluentBuilder {
 
     private final List<PredicateValueBuilder> childPredicateValueBuilders = new ArrayList<>();
 
+    private boolean caseSensitive = false;
+    private String jsonpath = "";
+    private String xpath = "";
+    private String except = "";
+
     protected PredicateTypeBuilder(StubBuilder stubBuilder) {
         this.parent = stubBuilder;
     }
@@ -66,6 +71,26 @@ public class PredicateTypeBuilder implements FluentBuilder {
         return predicateValueBuilder;
     }
 
+    public PredicateTypeBuilder caseSensitive(boolean caseSensitive) {
+        this.caseSensitive = caseSensitive;
+        return this;
+    }
+
+    public PredicateTypeBuilder jsonpath(String jsonpath) {
+        this.jsonpath = jsonpath;
+        return this;
+    }
+
+    public PredicateTypeBuilder xpath(String xpath) {
+        this.xpath = xpath;
+        return this;
+    }
+
+    public PredicateTypeBuilder except(String except) {
+        this.except = except;
+        return this;
+    }
+
     @Override
     public StubBuilder end() {
         return parent;
@@ -74,7 +99,20 @@ public class PredicateTypeBuilder implements FluentBuilder {
     protected List<Predicate> build() {
         List<Predicate> predicates = new ArrayList<>();
         for (PredicateValueBuilder predicateValueBuilder : childPredicateValueBuilders) {
-            predicates.add(predicateValueBuilder.build());
+            Predicate predicate = predicateValueBuilder.build();
+            if (caseSensitive) {
+                predicate.withCaseSensitive(true);
+            }
+            if (jsonpath != null && jsonpath.trim().length() != 0) {
+                predicate.withJsonpath(jsonpath);
+            }
+            if (xpath != null && xpath.trim().length() != 0) {
+                predicate.withXpath(xpath);
+            }
+            if (except != null && except.trim().length() != 0) {
+                predicate.withExcept(except);
+            }
+            predicates.add(predicate);
         }
         return predicates;
     }
