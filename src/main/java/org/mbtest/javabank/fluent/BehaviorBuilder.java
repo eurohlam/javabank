@@ -2,7 +2,6 @@ package org.mbtest.javabank.fluent;
 
 import org.mbtest.javabank.model.Behavior;
 import org.mbtest.javabank.model.Copy;
-import org.mbtest.javabank.model.Repeat;
 import org.mbtest.javabank.model.Wait;
 
 import java.util.ArrayList;
@@ -38,12 +37,6 @@ public class BehaviorBuilder implements FluentBuilder {
         return copy;
     }
 
-    public RepeatBuilder repeat() {
-        RepeatBuilder repeat = new RepeatBuilder(this);
-        childBehaviors.add(repeat);
-        return repeat;
-    }
-
     public List<BehaviorTypeBuilder> getBehaviors() {
         return childBehaviors;
     }
@@ -66,10 +59,6 @@ public class BehaviorBuilder implements FluentBuilder {
                                     .getFunction()
                                     .orElse(String.valueOf(((Wait) behavior).getValue())));
                     break;
-                }
-                case REPEAT: {
-                    behaviors.put(behavior.getType().value(),
-                            ((Repeat)behavior).getValue());
                 }
                 default: break;
             }

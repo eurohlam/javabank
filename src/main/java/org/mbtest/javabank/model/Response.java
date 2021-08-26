@@ -22,4 +22,13 @@ public abstract class Response extends MbEntity {
         return behaviors;
     }
 
+    public Response withRepeat(int repeat) {
+        this.put("repeat", repeat);
+        return this;
+    }
+
+    public int getRepeat() {
+        return (int) this.getOrDefault("repeat", 1);
+    }
+
 }
