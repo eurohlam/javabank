@@ -6,7 +6,7 @@ public class ResponseBuilder implements FluentBuilder {
     private final StubBuilder parent;
     private ResponseTypeBuilder builder;
     private BehaviorBuilder behaviorBuilder;
-
+    private int repeat = 1;
 
     protected ResponseBuilder(StubBuilder stubBuilder) {
         this.parent = stubBuilder;
@@ -27,6 +27,11 @@ public class ResponseBuilder implements FluentBuilder {
         return behaviorBuilder;
     }
 
+    public ResponseBuilder repeat(int repeat) {
+        this.repeat = repeat;
+        return this;
+    }
+
     @Override
     public StubBuilder end() {
         return parent;
@@ -37,6 +42,9 @@ public class ResponseBuilder implements FluentBuilder {
             Response response = builder.build();
             if (behaviorBuilder != null) {
                 response.addBehaviors(behaviorBuilder.build());
+            }
+            if (repeat > 1) {
+                response.withRepeat(repeat);
             }
             return response;
         }

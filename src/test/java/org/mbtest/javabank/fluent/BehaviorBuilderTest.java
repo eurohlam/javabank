@@ -84,14 +84,10 @@ public class BehaviorBuilderTest {
                         .header("Content-Type", "application/json")
                         .body("{\"status\": \"ok\"}")
                     .end()
-                    .behaviors()
-                        .repeat()
-                            .withValue(3)
-                        .end()
-                    .end()
+                    .repeat(3)
                 .end()
                 .build();
 
-        Assertions.assertNotNull(stub.getResponse(0).getBehaviors().get("repeat"));
+        Assertions.assertEquals(stub.getResponse(0).get("repeat"), 3);
     }
 }
